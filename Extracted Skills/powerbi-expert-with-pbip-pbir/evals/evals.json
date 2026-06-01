@@ -1,0 +1,118 @@
+{
+  "skill_name": "powerbi-expert",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm building a Power BI report to track donations for my nonprofit. We have a Donations fact table with columns: DonationID, DonorID, DonationDate, Amount, ProgramArea (like 'Education', 'Healthcare', 'Agriculture'). I also have a Donors dimension table with DonorID, DonorName, DonorType ('Individual', 'Foundation', 'Corporate'), Country, and FirstDonationDate. I need DAX measures for: (1) Total Donations, (2) Year-over-Year donation growth percentage, (3) Donor retention rate (donors who gave this year AND last year divided by donors who gave last year), and (4) a running total of donations within the current year. Also, do I need a separate date table or can I just use DonationDate directly?",
+      "expected_output": "Complete DAX measures for all 4 calculations using VAR/RETURN, explanation of why a separate date table is required, and the date table creation pattern. Should explain filter context for each measure.",
+      "files": [],
+      "expectations": [
+        "Provides a complete Total Donations measure using SUM or SUMX",
+        "Provides a YoY growth percentage measure using SAMEPERIODLASTYEAR or DATEADD",
+        "Provides a donor retention rate measure using CALCULATE with date filters and DISTINCTCOUNT",
+        "Provides a running total / cumulative measure within the fiscal year",
+        "Explains that a separate date table is required for time intelligence to work",
+        "Shows how to create a date table (either DAX CALENDAR or Power Query)",
+        "Uses VAR/RETURN pattern in at least 2 of the measures",
+        "Mentions marking the table as a date table"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I exported survey data from KoboToolbox as a CSV. It has about 80 columns -- each column is a survey question like 'Q1_age', 'Q2_gender', 'Q3_education_level', 'Q4_water_source', all the way to Q80. Each row is one respondent (about 2000 respondents). Some cells have multiple answers separated by semicolons (like 'Well;River;Tap' for water source). A bunch of cells are empty where people skipped questions. I need to get this into Power BI in a way that actually performs well and lets me cross-filter between questions. What's the best approach? Can you give me the Power Query M code to transform this?",
+      "expected_output": "Recommends unpivoting the wide table into a star schema. Provides M code for unpivoting, splitting multi-select responses, creating dimension tables. Explains why wide tables kill Power BI performance.",
+      "files": [],
+      "expectations": [
+        "Recommends unpivoting the wide format into a tall/narrow structure",
+        "Explains why wide tables (80+ columns) hurt VertiPaq performance",
+        "Provides M code for the unpivot transformation",
+        "Addresses multi-select (semicolon-separated) responses with a split pattern",
+        "Recommends creating a star schema with fact and dimension tables",
+        "Addresses null/empty handling for skipped questions",
+        "Mentions that cross-filtering requires the normalized structure"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "My Power BI report takes about 45 seconds to load a single page. The model is about 800MB in Import mode with 12 million rows in the main fact table. I have about 25 visuals on the page including 8 card visuals, a couple of matrices, some bar charts, and a map. Several of my DAX measures use FILTER(ALL(...)) patterns. The fact table has a lot of text columns like full addresses, descriptions, and notes. What's going wrong and how do I fix it?",
+      "expected_output": "Systematic diagnosis covering: too many visuals per page, high-cardinality text columns bloating VertiPaq, FILTER(ALL()) anti-pattern in DAX, and specific remediation steps for each issue.",
+      "files": [],
+      "expectations": [
+        "Identifies too many visuals on one page (25 is excessive, recommend under 15-20)",
+        "Identifies high-cardinality text columns (addresses, descriptions, notes) as VertiPaq compression killers",
+        "Recommends removing or moving text columns to a separate table",
+        "Identifies FILTER(ALL(...)) as a DAX anti-pattern and recommends CALCULATE with direct predicates",
+        "Recommends using Performance Analyzer to identify the slowest visuals",
+        "Suggests splitting the page into multiple pages with drill-through",
+        "Mentions DAX Studio or VertiPaq Analyzer for deeper diagnosis"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I want to enable Copilot in Power BI for my organization. We currently have Power BI Pro licenses for everyone. What do I need to do? What's the minimum capacity required?",
+      "expected_output": "Explains that Copilot requires F2+ Fabric capacity (not Pro), provides step-by-step activation, and notes that Pro alone is insufficient.",
+      "files": [],
+      "expectations": [
+        "States that Copilot requires Fabric capacity, minimum F2 SKU",
+        "Explains that Pro licenses alone do NOT support Copilot",
+        "Provides steps to enable Copilot in the Admin Portal tenant settings",
+        "Mentions assigning a workspace to the Fabric capacity",
+        "Notes that Copilot is enabled by default for tenants with eligible capacity since September 2025",
+        "Mentions the data residency / geographic processing toggle as a compliance consideration"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I have a Sales fact table and a separate Budget table. Both have a Date column but at different grains -- Sales is daily, Budget is monthly. I don't want to create a physical relationship between them because it would be many-to-many and messy. How can I compare actual sales vs. budget in the same visual?",
+      "expected_output": "Recommends TREATAS to create a virtual relationship between the tables through the shared date dimension, with complete DAX code.",
+      "files": [],
+      "expectations": [
+        "Recommends TREATAS as the solution for virtual relationships",
+        "Provides complete DAX measure code for budget vs. actual comparison",
+        "Explains why a physical relationship would be problematic (different grains, many-to-many ambiguity)",
+        "Shows how TREATAS applies filter context from one table to another",
+        "Recommends both tables relate to a shared Calendar dimension table"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "I need to match customer names between two systems but the names are slightly different -- one has 'ABC Corporation' and the other has 'ABC Corp.' or 'A.B.C. Corporation'. How can I handle this in Power Query?",
+      "expected_output": "Recommends fuzzy matching with Table.FuzzyJoin or Table.FuzzyNestedJoin, explains threshold tuning and transformation tables for known synonyms.",
+      "files": [],
+      "expectations": [
+        "Recommends Table.FuzzyJoin or Table.FuzzyNestedJoin as the solution",
+        "Provides M code with the fuzzy join syntax including threshold parameter",
+        "Explains the threshold parameter (0 to 1, higher = stricter)",
+        "Mentions the TransformationTable option for known synonyms like Corp/Corporation",
+        "Provides the UI path as an alternative (Merge Queries > Use fuzzy matching checkbox)"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "We're currently on Power BI Premium P2 capacity. I heard P-SKUs are being retired. What's happening and what do we need to do?",
+      "expected_output": "Explains P-SKU retirement timeline and migration path to Fabric F-SKUs.",
+      "files": [],
+      "expectations": [
+        "States that P-SKUs can no longer be purchased new (since July 2024)",
+        "States that existing P-SKU renewals ended February 2025",
+        "States the full retirement deadline is December 2026",
+        "Recommends migrating to Fabric F-SKUs",
+        "Notes that all P-SKU features are available on equivalent F-SKUs",
+        "Mentions current Pro pricing ($14/user/mo) or PPU pricing ($24/user/mo) as context"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "I have 15 measures in my model (Revenue, Cost, Profit, Units, etc.) and I need YTD, Prior Year, and YoY% versions of each. That's 45 measures to create and maintain. Is there a better way?",
+      "expected_output": "Recommends calculation groups as the solution, explains SELECTEDMEASURE() pattern, and notes that Tabular Editor is required to create them.",
+      "files": [],
+      "expectations": [
+        "Recommends calculation groups as the solution to measure proliferation",
+        "Explains the SELECTEDMEASURE() function that applies to any measure dynamically",
+        "Notes that calculation groups must be created in Tabular Editor (not Power BI Desktop UI)",
+        "Provides example calculation items for Current, YTD, Prior Year, and YoY%",
+        "Explains how the user would use the calculation group in a visual (add to rows/columns)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADF Haiti — Power BI Dashboard UI Kit</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: #1a2a32; font-family: 'Inter', sans-serif; font-size: 13px; color: #231f20; }
+
+  /* ---- PBI Shell ---- */
+  .pbi-shell { display: flex; flex-direction: column; height: 100vh; }
+
+  /* Top bar */
+  .pbi-topbar { background: #0a3d50; height: 40px; display: flex; align-items: center; padding: 0 16px; gap: 12px; flex-shrink: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .pbi-logo { display: flex; align-items: center; gap: 8px; }
+  .pbi-logo img { height: 22px; }
+  .pbi-logo span { font-size: 12px; font-weight: 600; color: #fff; }
+  .pbi-title { font-size: 12px; color: rgba(255,255,255,0.6); margin-left: 8px; }
+  .pbi-title strong { color: #fff; font-weight: 600; }
+  .spacer { flex: 1; }
+  .pbi-actions { display: flex; gap: 6px; }
+  .pbi-btn { background: rgba(255,255,255,0.12); border: none; border-radius: 3px; color: #fff; font-size: 11px; padding: 4px 10px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+  .pbi-btn.primary { background: #3eac7a; }
+
+  /* Page tabs */
+  .pbi-tabs { background: #0d4a60; height: 36px; display: flex; align-items: flex-end; padding: 0 16px; gap: 2px; flex-shrink: 0; }
+  .pbi-tab { padding: 0 14px; height: 30px; display: flex; align-items: center; font-size: 11px; cursor: pointer; color: rgba(255,255,255,0.6); border-radius: 4px 4px 0 0; border: 1px solid transparent; border-bottom: none; }
+  .pbi-tab.active { background: #f5f8f8; color: #0a3d50; font-weight: 600; border-color: #d8e7e6; }
+  .pbi-tab:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.1); }
+
+  /* Canvas */
+  .pbi-canvas { flex: 1; background: #f5f8f8; padding: 16px; overflow-y: auto; }
+
+  /* Slicer bar */
+  .slicer-bar { background: #fff; border-radius: 4px; padding: 10px 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 16px; box-shadow: 0 1px 3px rgba(10,61,80,0.08); }
+  .slicer-label { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6eb7b2; }
+  .slicer-chips { display: flex; gap: 6px; }
+  .chip { border-radius: 999px; font-size: 10px; font-weight: 600; padding: 3px 10px; cursor: pointer; border: 1.5px solid transparent; }
+  .chip.active { background: #0a3d50; color: #fff; }
+  .chip:not(.active) { background: #d8e7e6; color: #0a3d50; border-color: #6eb7b2; }
+  .slicer-divider { width: 1px; height: 24px; background: #d8e7e6; }
+
+  /* Grid */
+  .grid { display: grid; gap: 12px; }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: 2fr 1fr; }
+
+  /* Visual card */
+  .vis { background: #fff; border-radius: 4px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(10,61,80,0.08); position: relative; }
+  .vis-title { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #58585b; margin-bottom: 10px; }
+  .vis-ellipsis { position: absolute; top: 12px; right: 12px; font-size: 14px; color: #d8e7e6; cursor: pointer; }
+
+  /* KPI */
+  .kpi-num { font-size: 28px; font-weight: 700; line-height: 1; }
+  .kpi-num.blue { color: #0a3d50; }
+  .kpi-num.green { color: #3eac7a; }
+  .kpi-num.teal { color: #41aaa3; }
+  .kpi-num.grey { color: #58585b; }
+  .kpi-sub { font-size: 10px; color: #58585b; margin-top: 3px; }
+  .kpi-delta { font-size: 10px; font-weight: 700; margin-top: 5px; }
+  .kpi-delta.up { color: #3eac7a; }
+  .kpi-delta.down { color: #c0392b; }
+
+  /* Bar chart */
+  .bar-chart { display: flex; flex-direction: column; gap: 7px; }
+  .bar-row { display: flex; align-items: center; gap: 8px; }
+  .bar-label { font-size: 10px; color: #231f20; width: 90px; flex-shrink: 0; text-align: right; }
+  .bar-track { flex: 1; background: #d8e7e6; border-radius: 2px; height: 14px; position: relative; }
+  .bar-fill { height: 100%; border-radius: 2px; }
+  .bar-val { font-size: 10px; color: #58585b; width: 36px; text-align: left; }
+
+
+
+  /* Line chart placeholder */
+  .line-chart { height: 90px; position: relative; }
+  .line-chart svg { width: 100%; height: 100%; }
+
+  /* Map placeholder */
+  .map-placeholder { background: #d8e7e6; border-radius: 4px; height: 180px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; color: #0a3d50; }
+  .map-placeholder svg { opacity: 0.4; }
+  .map-placeholder span { font-size: 10px; color: #58585b; }
+
+  /* Table vis — IBCS style */
+  .vis-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+  .vis-table thead th { background: #0a3d50; color: #fff; padding: 6px 8px; text-align: left; font-size: 10px; font-weight: 600; }
+  .vis-table tbody tr:nth-child(even) { background: #ebebeb; }
+  .vis-table tbody tr:nth-child(odd) { background: #fff; }
+  .vis-table tbody td { padding: 5px 8px; color: #231f20; border-bottom: 1px solid #f0f0f0; }
+  .vis-table tfoot tr { background: #fff; }
+  .vis-table tfoot td { padding: 7px 8px 5px; font-weight: 700; color: #231f20; border-top: 2px solid #231f20; border-bottom: 1px solid #231f20; }
+  .progress-bar { background: #d8e7e6; border-radius: 999px; height: 6px; }
+  .progress-fill { height: 100%; border-radius: 999px; background: #3eac7a; }
+  .right { text-align: right; }
+
+  .section-gap { margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<div class="pbi-shell">
+  <!-- Top bar -->
+  <div class="pbi-topbar">
+    <div class="pbi-logo">
+      <img src="../../assets/logo-icon-dark-bg.png" alt="ADF">
+      <span>ADF Haiti</span>
+    </div>
+    <div class="pbi-title">/ <strong>Program Evaluation Dashboard</strong></div>
+    <div class="spacer"></div>
+    <div class="pbi-actions">
+      <button class="pbi-btn">⟳ Refresh</button>
+      <button class="pbi-btn">⤓ Export</button>
+      <button class="pbi-btn primary">Share</button>
+    </div>
+  </div>
+
+  <!-- Page tabs -->
+  <div class="pbi-tabs">
+    <div class="pbi-tab active">Overview</div>
+    <div class="pbi-tab">Field Operations</div>
+    <div class="pbi-tab">Budget Tracking</div>
+    <div class="pbi-tab">GIS Coverage</div>
+  </div>
+
+  <!-- Canvas -->
+  <div class="pbi-canvas">
+
+    <!-- Slicers -->
+    <div class="slicer-bar">
+      <div class="slicer-label">Period</div>
+      <div class="slicer-chips">
+        <div class="chip">Q1 2025</div>
+        <div class="chip active">Q2 2025</div>
+        <div class="chip">Q3 2025</div>
+        <div class="chip">All</div>
+      </div>
+      <div class="slicer-divider"></div>
+      <div class="slicer-label">Department</div>
+      <div class="slicer-chips">
+        <div class="chip active">Sud</div>
+        <div class="chip">Ouest</div>
+        <div class="chip">All</div>
+      </div>
+      <div class="slicer-divider"></div>
+      <div class="slicer-label">Donor</div>
+      <div class="slicer-chips">
+        <div class="chip active">All</div>
+        <div class="chip">USAID</div>
+        <div class="chip">UN</div>
+      </div>
+    </div>
+
+    <!-- KPI row -->
+    <div class="grid grid-4" style="margin-bottom:12px;">
+      <div class="vis">
+        <div class="vis-title">Households Surveyed</div>
+        <div class="vis-ellipsis">···</div>
+        <div class="kpi-num blue">1,248</div>
+        <div class="kpi-sub">Target: 1,400</div>
+        <div class="kpi-delta up">↑ 89% completion</div>
+        <div style="margin-top:8px;"><div class="progress-bar"><div class="progress-fill" style="width:89%;"></div></div></div>
+      </div>
+      <div class="vis">
+        <div class="vis-title">Communities Mapped</div>
+        <div class="vis-ellipsis">···</div>
+        <div class="kpi-num green">28 <span style="font-size:14px;color:#58585b;">/ 34</span></div>
+        <div class="kpi-sub">GIS drone coverage</div>
+        <div class="kpi-delta up">↑ On schedule</div>
+        <div style="margin-top:8px;"><div class="progress-bar"><div class="progress-fill" style="width:82%; background:#3eac7a;"></div></div></div>
+      </div>
+      <div class="vis">
+        <div class="vis-title">Data Completeness</div>
+        <div class="vis-ellipsis">···</div>
+        <div class="kpi-num teal">96.2%</div>
+        <div class="kpi-sub">Pass rate after QC</div>
+        <div class="kpi-delta up">↑ +1.4pp vs. Q1</div>
+      </div>
+      <div class="vis">
+        <div class="vis-title">Budget Utilization</div>
+        <div class="vis-ellipsis">···</div>
+        <div class="kpi-num grey">$18,340</div>
+        <div class="kpi-sub">of $24,800 contracted</div>
+        <div class="kpi-delta up">74% — on track</div>
+        <div style="margin-top:8px;"><div class="progress-bar"><div class="progress-fill" style="width:74%; background:#41aaa3;"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Middle row -->
+    <div class="grid grid-3 section-gap" style="margin-bottom:12px;">
+      <!-- Bar chart -->
+      <div class="vis" style="grid-column: span 2;">
+        <div class="vis-title">Surveys Completed by Community</div>
+        <div class="vis-ellipsis">···</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label">Fond-des-Blancs</div>
+            <div class="bar-track"><div class="bar-fill" style="width:88%; background:#0a3d50;"></div></div>
+            <div class="bar-val">264</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Cavaillon</div>
+            <div class="bar-track"><div class="bar-fill" style="width:72%; background:#3eac7a;"></div></div>
+            <div class="bar-val">216</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">St. Louis du Sud</div>
+            <div class="bar-track"><div class="bar-fill" style="width:60%; background:#41aaa3;"></div></div>
+            <div class="bar-val">180</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Aquin</div>
+            <div class="bar-track"><div class="bar-fill" style="width:55%; background:#6eb7b2;"></div></div>
+            <div class="bar-val">165</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Les Cayes</div>
+            <div class="bar-track"><div class="bar-fill" style="width:47%; background:#0a3d50; opacity:0.6;"></div></div>
+            <div class="bar-val">141</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Other (29)</div>
+            <div class="bar-track"><div class="bar-fill" style="width:94%; background:#d8e7e6;"></div></div>
+            <div class="bar-val" style="color:#0a3d50;font-weight:700;">282</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal bar: Survey Method Mix -->
+      <div class="vis">
+        <div class="vis-title">Survey Method Mix</div>
+        <div class="vis-ellipsis">···</div>
+        <div style="margin-top:10px; display:flex; flex-direction:column; gap:9px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:10px; color:#231f20; margin-bottom:3px;"><span>KoboToolbox</span><span style="font-weight:700; color:#0a3d50;">42%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:42%; background:#0a3d50;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:10px; color:#231f20; margin-bottom:3px;"><span>ODK Collect</span><span style="font-weight:700; color:#0a3d50;">26%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:26%; background:#2a7f9a;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:10px; color:#231f20; margin-bottom:3px;"><span>CAPI Other</span><span style="font-weight:700; color:#0a3d50;">17%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:17%; background:#4399b3;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:10px; color:#231f20; margin-bottom:3px;"><span>Paper (digitized)</span><span style="font-weight:700; color:#0a3d50;">15%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:15%; background:#7bbdd0;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom row -->
+    <div class="grid grid-2 section-gap">
+      <!-- Activity table -->
+      <div class="vis">
+        <div class="vis-title">Activity Status Tracker</div>
+        <div class="vis-ellipsis">···</div>
+        <table class="vis-table">
+          <thead>
+            <tr>
+              <th>Activity</th>
+              <th>Lead</th>
+              <th class="right">% Done</th>
+              <th class="right">USD Spent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Survey Design</td>
+              <td>Data Team</td>
+              <td class="right" style="color:#3eac7a;font-weight:700;">100%</td>
+              <td class="right">3,200</td>
+            </tr>
+            <tr>
+              <td>Enumerator Training</td>
+              <td>Field Unit</td>
+              <td class="right" style="color:#3eac7a;font-weight:700;">100%</td>
+              <td class="right">2,400</td>
+            </tr>
+            <tr>
+              <td>Data Collection</td>
+              <td>Field Unit</td>
+              <td class="right" style="color:#41aaa3;font-weight:700;">89%</td>
+              <td class="right">8,540</td>
+            </tr>
+            <tr>
+              <td>GIS Drone Mapping</td>
+              <td>GIS Unit</td>
+              <td class="right" style="color:#41aaa3;font-weight:700;">82%</td>
+              <td class="right">4,200</td>
+            </tr>
+            <tr>
+              <td>Data Cleaning &amp; QC</td>
+              <td>Data Team</td>
+              <td class="right" style="color:#6eb7b2;font-weight:700;">40%</td>
+              <td class="right">0</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">Total Spent</td>
+              <td class="right">18,340</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Map placeholder -->
+      <div class="vis">
+        <div class="vis-title">GIS Coverage Map — Sud Department</div>
+        <div class="vis-ellipsis">···</div>
+        <div class="map-placeholder">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="18" stroke="#0a3d50" stroke-width="2" fill="none"/>
+            <circle cx="20" cy="20" r="4" fill="#3eac7a"/>
+            <line x1="20" y1="2" x2="20" y2="38" stroke="#6eb7b2" stroke-width="1"/>
+            <line x1="2" y1="20" x2="38" y2="20" stroke="#6eb7b2" stroke-width="1"/>
+            <ellipse cx="20" cy="20" rx="10" ry="18" stroke="#6eb7b2" stroke-width="1" fill="none"/>
+          </svg>
+          <span>Mapbox / ArcGIS visual loads here in Power BI</span>
+          <span style="font-size:9px; color:#6eb7b2;">28 of 34 communities mapped (shown as green pins)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ADF Haiti — Document Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  @media print {
+    @page { size: letter portrait; margin: 0; }
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page, .cover-page { box-shadow: none !important; page-break-after: always; break-after: page; }
+    .no-print { display: none !important; }
+  }
+
+  body { margin: 0; background: #d6dadc; font-family: 'Inter', sans-serif; font-size: 13px; color: #231f20; }
+
+  /* ---- Document page ---- */
+  .page, .cover-page {
+    background: #fff;
+    width: 816px; /* 8.5in at 96dpi */
+    min-height: 1056px; /* 11in at 96dpi */
+    margin: 32px auto;
+    box-shadow: 0 4px 28px rgba(10,61,80,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ---- Watermark ---- */
+  .page-watermark {
+    position: absolute;
+    inset: 0;
+    background-image: url('../../assets/docx-letterhead-watermark.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.13;
+    pointer-events: none;
+    z-index: 0;
+    -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%, transparent 13%,
+      black 20%, black 80%,
+      transparent 89%, transparent 100%);
+    mask-image: linear-gradient(to bottom,
+      transparent 0%, transparent 13%,
+      black 20%, black 80%,
+      transparent 89%, transparent 100%);
+  }
+
+  /* ---- Page content ---- */
+  .page-content { position: relative; z-index: 2; display: flex; flex-direction: column; min-height: 1056px; }
+
+  /* ---- Header ---- */
+  .lh-header { padding: 28px 56px 12px; background: #fff; position: relative; z-index: 3; }
+
+  /* ---- Body ---- */
+  .lh-body { padding: 24px 56px 100px; flex: 1; }
+
+  /* ---- Typography ---- */
+  .doc-date { font-size: 11px; color: #58585b; margin-bottom: 28px; }
+  .doc-recipient { margin-bottom: 22px; }
+  .doc-recipient p { font-size: 12px; line-height: 1.55; margin: 0; color: #231f20; }
+  .doc-re { font-size: 12px; font-weight: 700; color: #231f20; margin-bottom: 20px; }
+  .doc-h1 { font-size: 17px; font-weight: 700; color: #0a3d50; margin: 0 0 10px; padding-bottom: 7px; border-bottom: 1.5px solid #d8e7e6; letter-spacing: -0.01em; }
+  .doc-h2 { font-size: 13px; font-weight: 700; color: #0a3d50; margin: 22px 0 7px; }
+  .doc-p { font-size: 12px; line-height: 1.7; color: #231f20; margin: 0 0 10px; }
+  .doc-sig p { font-size: 12px; line-height: 1.6; margin: 0; color: #231f20; }
+  .doc-sig .name { font-weight: 700; margin-top: 36px; }
+  .doc-sig .title { color: #58585b; }
+
+  /* Callout */
+  .callout { background: rgba(216,231,230,0.5); border-left: 3px solid #0a3d50; padding: 10px 14px; margin: 14px 0; }
+  .callout p { font-size: 12px; color: #0a3d50; margin: 0; font-weight: 500; }
+
+  /* Table */
+  .doc-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11px; }
+  .doc-table thead th { background: #0a3d50; color: #fff; font-weight: 600; text-align: left; padding: 7px 10px; }
+  .doc-table tbody tr:nth-child(even) { background: #ebebeb; }
+  .doc-table tbody tr:nth-child(odd) { background: #fff; }
+  .doc-table tbody td { padding: 6px 10px; color: #231f20; }
+  .doc-table tfoot tr { background: #fff; }
+  .doc-table tfoot td { padding: 7px 10px; font-weight: 700; color: #231f20; border-top: 2px solid #231f20; border-bottom: 1px solid #231f20; }
+  .doc-caption { font-size: 10px; color: #58585b; font-style: italic; margin: 4px 0 14px; }
+  .right { text-align: right; }
+
+  /* ---- Standard footer ---- */
+  .lh-footer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 12px 56px 16px;
+    display: flex; gap: 0; align-items: flex-start;
+    background: #fff; z-index: 3;
+  }
+  .lh-footer-col { flex: 1; }
+  .lh-footer-label { font-size: 9px; font-weight: 700; color: #231f20; margin-bottom: 2px; }
+  .lh-footer-val { font-size: 9px; color: #58585b; line-height: 1.5; }
+  .lh-footer-link { font-size: 9px; color: #41aaa3; text-decoration: none; }
+  .lh-footer-pagenum { font-size: 9px; color: #58585b; align-self: flex-end; padding-bottom: 2px; }
+
+  /* ---- Cover page ---- */
+  .cover-band {
+    position: relative; height: 300px;
+    background: #0d3d52; overflow: hidden;
+  }
+  .cover-band-wm {
+    position: absolute; inset: 0;
+    background-image: url('../../assets/docx-cover-header.png');
+    background-size: cover; background-position: top center;
+  }
+  .cover-band-content {
+    position: relative; z-index: 2;
+    padding: 0 56px 52px; height: 100%;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .cover-body { position: relative; padding: 40px 56px 100px; }
+  .cover-wm {
+    position: absolute; inset: 0;
+    background-image: url('../../assets/docx-letterhead-watermark.png');
+    background-size: cover; background-position: bottom center;
+    opacity: 0.07; pointer-events: none;
+  }
+  .cover-body-content { position: relative; z-index: 2; }
+</style>
+</head>
+<body>
+
+  <!-- ======================== COVER PAGE ======================== -->
+  <div class="cover-page">
+    <div class="cover-band">
+      <div class="cover-band-wm"></div>
+      <div class="cover-band-content">
+        <div style="font-size:34px; font-weight:700; color:#fff; line-height:1.2; max-width:420px;">Baseline Household Survey &amp; GIS Mapping</div>
+      </div>
+    </div>
+
+    <div class="cover-body">
+      <div class="cover-wm"></div>
+      <div class="cover-body-content">
+        <div style="font-size:24px; font-weight:600; color:#231f20; line-height:1.3; margin-bottom:16px; max-width:360px;">Scope of Work &mdash; Data Services Agreement 2025-01</div>
+        <div style="font-size:11px; color:#231f20; line-height:1.7; max-width:380px;">Submitted to: USAID Haiti Mission. Prepared by ADF Data Services Unit. April 28, 2025 &mdash; Version 1.0 Final. This proposal outlines the scope, methodology, timeline, and budget for a baseline household survey and GIS drone mapping engagement. All fieldwork is led by ADF permanent staff.</div>
+      </div>
+    </div>
+
+    <!-- Cover footer -->
+    <div style="position:absolute; bottom:0; left:0; right:0; padding:14px 56px 16px; display:flex; align-items:flex-end; justify-content:space-between; z-index:3; background:#fff;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <img src="../../assets/logo-icon-color.png" alt="ADF" style="height:32px; width:32px; border-radius:50%;">
+        <div style="font-size:8px; line-height:1.4; color:#58585b;">Association pour<br>le Développement<br><strong style="color:#231f20;">de Fond-des-Blancs</strong></div>
+      </div>
+      <div style="font-size:9px; color:#58585b; text-align:right;">Visit our website at<br><a style="color:#41aaa3; text-decoration:none;" href="#">www.adfhaiti.org</a></div>
+    </div>
+  </div>
+
+  <!-- ======================== STANDARD LETTERHEAD PAGE ======================== -->
+  <div class="page">
+    <div class="page-watermark"></div>
+    <div class="page-content">
+      <div class="lh-header">
+        <div style="display:flex; align-items:center; gap:9px;">
+          <img src="../../assets/logo-icon-color.png" alt="ADF" style="height:42px; width:42px; border-radius:50%;">
+          <div style="font-size:9.5px; line-height:1.45; color:#231f20;">
+            Association pour<br>le Développement<br><strong>de Fond-des-Blancs</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="lh-body">
+        <div class="doc-date">April 28, 2025</div>
+        <div class="doc-recipient">
+          <p><strong>Ms. Sarah Thompson</strong><br>
+          Program Officer, Health Systems<br>
+          USAID Haiti Mission<br>
+          Port-au-Prince, Haiti</p>
+        </div>
+        <div class="doc-re"><strong>RE:</strong> Baseline Household Survey — Scope of Work and Budget, Contract 2025-01</div>
+
+        <div class="doc-h1">Executive Summary</div>
+        <p class="doc-p">ADF will conduct a baseline household survey covering 1,400 households across 34 communities in the Sud department. The scope includes mobile data collection, GIS drone mapping of all target zones, and delivery of a cleaned, analysis-ready dataset within 60 days of contract execution.</p>
+        <p class="doc-p">All fieldwork is led by ADF's permanent staff. No subcontractors are engaged for data collection activities. ADF's three-pass QC protocol ensures data completeness above 95% before any dataset is delivered to the client.</p>
+
+        <div class="callout">
+          <p>ADF delivers data, not recommendations. All analytical conclusions in final reports reflect partner-defined indicators and ADF's independently validated methodology.</p>
+        </div>
+
+        <div class="doc-h2">Scope of Work</div>
+        <p class="doc-p">ADF will design survey instruments, train 12 enumerators, and deploy mobile data collection using KoboToolbox. Drone mapping flights will cover all 34 communities, producing georeferenced orthomosaic outputs at 5cm/pixel resolution.</p>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Activity</th><th>Lead</th><th>Duration</th><th class="right">Budget (USD)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Survey Design &amp; Piloting</td><td>Data Team</td><td>7 days</td><td class="right">3,200</td></tr>
+            <tr><td>Enumerator Training</td><td>Field Unit</td><td>3 days</td><td class="right">2,400</td></tr>
+            <tr><td>Data Collection (Field)</td><td>Field Unit</td><td>21 days</td><td class="right">9,600</td></tr>
+            <tr><td>GIS Drone Mapping</td><td>GIS Unit</td><td>14 days</td><td class="right">6,800</td></tr>
+            <tr><td>Data Cleaning &amp; QC</td><td>Data Team</td><td>10 days</td><td class="right">2,800</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="3">Total</td><td class="right">24,800</td></tr>
+          </tfoot>
+        </table>
+        <div class="doc-caption">Table 1: Activity summary and budget by workstream, USD.</div>
+
+        <div class="doc-sig">
+          <p>Please do not hesitate to contact us with any questions regarding this proposal.</p>
+          <p class="name">Jean-Baptiste Pierre</p>
+          <p class="title">Executive Director, ADF Haiti</p>
+          <p style="font-size:11px;color:#41aaa3;margin-top:2px;">jb.pierre@adfhaiti.org · +(509) 4-944-8768</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lh-footer">
+      <div class="lh-footer-col">
+        <div class="lh-footer-label">Address</div>
+        <div class="lh-footer-val">L'Exode Secondary School, Dige<br>HT-8311 Fond-des-Blancs, Haiti</div>
+      </div>
+      <div class="lh-footer-col">
+        <div class="lh-footer-label">Contact</div>
+        <div class="lh-footer-val">+(509) 4-944-8768<br>info@adfhaiti.org</div>
+      </div>
+      <div class="lh-footer-col">
+        <div class="lh-footer-val" style="padding-top:11px;">Visit our website at<br><a class="lh-footer-link" href="#">www.adfhaiti.org</a></div>
+      </div>
+      <div class="lh-footer-pagenum">1</div>
+    </div>
+  </div>
+
+  <script>
+    document.fonts.ready.then(function() {
+      setTimeout(function() { window.print(); }, 600);
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,228 @@
+/* ============================================================
+   ADF Haiti Design System - Colors & Typography
+   Association pour le Développement de Fond-des-Blancs
+   ============================================================ */
+
+/* --- Web Fonts --- */
+@font-face {
+  font-family: 'Poppins';
+  src: url('./fonts/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('./fonts/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('./fonts/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('./fonts/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('./fonts/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('./fonts/Gotham-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url('./fonts/Gotham-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+
+  /* ---- Base Color Palette ---- */
+  --color-raisin-black:   #231f20;   /* Body text, primary headings */
+  --color-davy-grey:      #58585b;   /* Secondary text, subheadings */
+  --color-prussian-blue:  #0a3d50;   /* Primary accent: table headers, cover pages */
+  --color-smooth-green:   #3eac7a;   /* Secondary accent: highlights, status */
+  --color-light-sea-green:#41aaa3;   /* Tertiary accent: chart elements, tabs */
+  --color-neptune-cyan:   #6eb7b2;   /* Light accent: borders, dividers */
+  --color-pale-blue-lily: #d8e7e6;   /* Background fill: banding, shaded sections */
+  --color-white:          #ffffff;
+  --color-off-white:      #f5f8f8;   /* Page background tint */
+
+  /* ---- Semantic Color Tokens ---- */
+
+  /* Foreground / Text */
+  --fg-primary:     var(--color-raisin-black);
+  --fg-secondary:   var(--color-davy-grey);
+  --fg-on-dark:     var(--color-white);
+  --fg-accent:      var(--color-prussian-blue);
+  --fg-positive:    var(--color-smooth-green);
+
+  /* Backgrounds */
+  --bg-page:        var(--color-off-white);
+  --bg-card:        var(--color-white);
+  --bg-band:        var(--color-pale-blue-lily);
+  --bg-accent:      var(--color-prussian-blue);
+  --bg-accent-soft: #e8f0f3;           /* 10% Prussian Blue tint */
+  --bg-positive:    var(--color-smooth-green);
+
+  /* Borders / Dividers */
+  --border-subtle:  var(--color-neptune-cyan);
+  --border-strong:  var(--color-prussian-blue);
+  --border-muted:   var(--color-pale-blue-lily);
+
+  /* Chart / Data Colors (in order) */
+  --chart-1: var(--color-prussian-blue);
+  --chart-2: var(--color-smooth-green);
+  --chart-3: var(--color-light-sea-green);
+  --chart-4: var(--color-neptune-cyan);
+  --chart-5: var(--color-davy-grey);
+
+  /* ---- Typography Families ---- */
+
+  /* Primary: Aptos (Office suite). Web fallback: Poppins, then Inter */
+  --font-primary:  'Aptos', 'Poppins', 'Inter', sans-serif;
+  /* Display / logo text: Gotham, then Poppins */
+  --font-display:  'Gotham', 'Poppins', sans-serif;
+  /* Secondary brand text: Poppins */
+  --font-brand:    'Poppins', sans-serif;
+  /* Monospace (data, code) */
+  --font-mono:     'Courier New', 'Consolas', monospace;
+
+  /* ---- Type Scale ---- */
+
+  /* Document / Print Scale (pt → rem conversion at 1rem=12pt) */
+  --text-body:     0.917rem;   /* 11pt */
+  --text-caption:  0.75rem;    /* 9pt */
+  --text-small:    0.833rem;   /* 10pt */
+  --text-h4:       1rem;       /* 12pt */
+  --text-h3:       1.167rem;   /* 14pt */
+  --text-h2:       1.333rem;   /* 16pt */
+  --text-h1:       1.667rem;   /* 20pt */
+  --text-cover:    2.5rem;     /* 30pt, cover page titles */
+  --text-display:  3.5rem;     /* 42pt, slide titles */
+
+  /* Web / Screen Scale */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+
+  /* ---- Font Weights ---- */
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* ---- Line Heights ---- */
+  --leading-tight:   1.2;
+  --leading-snug:    1.35;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+
+  /* ---- Letter Spacing ---- */
+  --tracking-tight:  -0.01em;
+  --tracking-normal:  0em;
+  --tracking-wide:    0.04em;
+  --tracking-caps:    0.08em;
+
+  /* ---- Spacing Scale ---- */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+
+  /* ---- Border Radii ---- */
+  --radius-sm:   3px;
+  --radius-md:   6px;
+  --radius-lg:   10px;
+  --radius-pill: 999px;
+
+  /* ---- Shadows / Elevation ---- */
+  --shadow-card:   0 1px 4px rgba(10,61,80,0.10), 0 0 1px rgba(10,61,80,0.06);
+  --shadow-raised: 0 4px 12px rgba(10,61,80,0.12), 0 1px 3px rgba(10,61,80,0.08);
+  --shadow-modal:  0 12px 32px rgba(10,61,80,0.18), 0 2px 8px rgba(10,61,80,0.10);
+}
+
+/* ============================================================
+   Semantic Element Defaults
+   ============================================================ */
+body {
+  font-family: var(--font-primary);
+  font-size:   var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-relaxed);
+  color:       var(--fg-primary);
+  background:  var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: var(--weight-bold);
+  color:       var(--fg-accent);
+  line-height: var(--leading-tight);
+  text-wrap:   pretty;
+  margin:      0 0 0.5em;
+}
+
+h1 { font-size: var(--text-h1); }
+h2 { font-size: var(--text-h2); }
+h3 { font-size: var(--text-h3); }
+h4 { font-size: var(--text-h4); font-weight: var(--weight-semibold); }
+h5 { font-size: var(--text-body); font-weight: var(--weight-semibold); color: var(--fg-secondary); }
+h6 { font-size: var(--text-caption); font-weight: var(--weight-semibold); color: var(--fg-secondary); letter-spacing: var(--tracking-caps); text-transform: uppercase; }
+
+p {
+  font-size:   var(--text-body);
+  line-height: var(--leading-relaxed);
+  color:       var(--fg-primary);
+  text-wrap:   pretty;
+  margin:      0 0 1em;
+}
+
+a {
+  color:           var(--color-prussian-blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+a:hover { color: var(--color-smooth-green); }
+
+strong, b { font-weight: var(--weight-bold); }
+em, i { font-style: italic; }
+
+caption, figcaption, .caption {
+  font-size:   var(--text-caption);
+  color:       var(--fg-secondary);
+  line-height: var(--leading-normal);
+}
+
+code, pre, .mono {
+  font-family: var(--font-mono);
+  font-size:   0.85em;
+  background:  var(--bg-band);
+  padding:     0.1em 0.3em;
+  border-radius: var(--radius-sm);
+}
